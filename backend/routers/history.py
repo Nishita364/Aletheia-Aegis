@@ -56,7 +56,7 @@ async def list_history(
 ) -> list[HistoryRecord]:
     """Return up to 50 most recent history records ordered by ``created_at`` desc."""
     try:
-        records = await asyncio.wait_for(repository.list_recent(limit=50), timeout=5.0)
+        records = await asyncio.wait_for(repository.list_recent(limit=50), timeout=15.0)
         return records
     except asyncio.TimeoutError:
         logger.warning("History list_recent timed out — returning empty list")

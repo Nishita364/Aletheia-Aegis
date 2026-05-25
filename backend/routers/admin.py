@@ -330,7 +330,7 @@ async def get_analytics(
     # 1. Fetch all recent records (up to 50 for now; extend as needed)
     # ------------------------------------------------------------------
     try:
-        records = await asyncio.wait_for(repository.list_recent(limit=10_000), timeout=5.0)
+        records = await asyncio.wait_for(repository.list_recent(limit=10_000), timeout=15.0)
     except asyncio.TimeoutError:
         logger.warning("Analytics list_recent timed out — returning zeros")
         records = []

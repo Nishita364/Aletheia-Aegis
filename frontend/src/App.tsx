@@ -13,26 +13,22 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public route — login page (no layout) */}
+          {/* Public route — login page only (no layout) */}
           <Route path="/login" element={<LoginPage />} />
-
-          {/* Legacy admin login route — redirects to /login */}
           <Route path="/admin/login" element={<LoginPage />} />
 
-          {/* Main app routes — publicly accessible (no auth required) */}
-          <Route element={<AppLayout />}>
+          {/* All app routes require login */}
+          <Route
+            element={
+              <AuthGuard appLevel>
+                <AppLayout />
+              </AuthGuard>
+            }
+          >
             <Route index element={<HomePage />} />
             <Route path="/result/:id" element={<ResultPage />} />
             <Route path="/history" element={<HistoryPage />} />
-            {/* Admin route — requires authentication */}
-            <Route
-              path="/admin"
-              element={
-                <AuthGuard>
-                  <AdminDashboard />
-                </AuthGuard>
-              }
-            />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>

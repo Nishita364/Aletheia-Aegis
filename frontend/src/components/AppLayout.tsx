@@ -6,12 +6,13 @@ import { useAuth } from '../context/AuthContext'
 const navLinks = [
   { to: '/', label: 'Home', end: true },
   { to: '/history', label: 'History', end: false },
+  { to: '/admin', label: 'Admin', end: false },
 ]
 
 export function AppLayout() {
   const [menuOpen, setMenuOpen] = useState(false)
   const navigate = useNavigate()
-  const { isAuthenticated, logout } = useAuth()
+  const { logout } = useAuth()
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     [
@@ -48,38 +49,23 @@ export function AppLayout() {
                   {label}
                 </NavLink>
               ))}
-              {/* Admin link — only shown when authenticated */}
-              {isAuthenticated && (
-                <NavLink to="/admin" end={false} className={linkClass}>
-                  Admin
-                </NavLink>
-              )}
             </nav>
 
-            {/* Right side: ThemeToggle + Logout (if admin) + mobile hamburger */}
+            {/* Right side: ThemeToggle + Logout + mobile hamburger */}
             <div className="flex items-center gap-2">
               <ThemeToggle />
-              
-              {/* Logout button — visible when authenticated */}
-              {isAuthenticated ? (
-                <button
-                  onClick={handleLogout}
-                  className="hidden md:inline-flex px-3 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors min-h-[44px] items-center gap-1.5"
-                  title="Sign out"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                  Logout
-                </button>
-              ) : (
-                <NavLink
-                  to="/login"
-                  className="hidden md:inline-flex px-3 py-2 rounded-md text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors min-h-[44px] items-center gap-1.5"
-                >
-                  Admin Login
-                </NavLink>
-              )}
+
+              {/* Logout button */}
+              <button
+                onClick={handleLogout}
+                className="hidden md:inline-flex px-3 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors min-h-[44px] items-center gap-1.5"
+                title="Sign out"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Logout
+              </button>
 
               {/* Hamburger button — mobile only */}
               <button
@@ -90,12 +76,10 @@ export function AppLayout() {
                 onClick={() => setMenuOpen((prev) => !prev)}
               >
                 {menuOpen ? (
-                  // X icon
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 ) : (
-                  // Hamburger icon
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                   </svg>
@@ -123,35 +107,12 @@ export function AppLayout() {
                 {label}
               </NavLink>
             ))}
-            {/* Admin link in mobile menu — only when authenticated */}
-            {isAuthenticated && (
-              <NavLink
-                to="/admin"
-                end={false}
-                className={linkClass}
-                onClick={() => setMenuOpen(false)}
-              >
-                Admin
-              </NavLink>
-            )}
-            
-            {/* Mobile Logout / Login button */}
-            {isAuthenticated ? (
-              <button
-                onClick={handleLogout}
-                className="w-full mt-2 px-3 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
-              >
-                Logout
-              </button>
-            ) : (
-              <NavLink
-                to="/login"
-                className="block w-full mt-2 px-3 py-2 rounded-md text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
-                onClick={() => setMenuOpen(false)}
-              >
-                Admin Login
-              </NavLink>
-            )}
+            <button
+              onClick={handleLogout}
+              className="w-full mt-2 px-3 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
+            >
+              Logout
+            </button>
           </nav>
         )}
       </header>
