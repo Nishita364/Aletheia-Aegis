@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fake-news-detector-backend"
+version = "0.1.0"
+description = "Fake News Detector API Server"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "scikit-learn>=1.8",
+    "pandas>=2.2",
+    "numpy>=2.0",
+    "joblib>=1.4",
+    "langdetect>=1.0.9",
+    "pydantic>=2.7",
+    "httpx>=0.27",
+    "python-jose[cryptography]>=3.3",
+    "motor>=3.3",
+    "deep-translator>=1.11",
+    "slowapi>=0.1.9",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.2.0",
+    "pytest-asyncio==0.23.6",
+    "hypothesis==6.100.1",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*", "ml*", "db*", "services*"]

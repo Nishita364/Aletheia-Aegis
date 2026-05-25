@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Accessibility & responsive global fixes */
+:root {
+	--bg: #ffffff;
+	--text: #0f172a; /* slate-900 */
+	--muted: #6b7280; /* gray-500 */
+	--primary: #1e40af; /* blue-800 */
+	--accent: #2563eb; /* blue-600 */
+}
+
+.dark {
+	--bg: #0b1220;
+	--text: #e6eef8; /* light text for dark mode */
+	--muted: #9ca3af;
+	--primary: #60a5fa;
+	--accent: #3b82f6;
+}
+
+html, body {
+	background-color: var(--bg);
+	color: var(--text);
+	max-width: 100%;
+	overflow-x: hidden; /* prevent horizontal scroll on small screens */
+}
+
+/* Ensure interactive elements meet 44x44 CSS px touch target minimum */
+button, a, input, textarea, select, [role="button"] {
+	-webkit-tap-highlight-color: transparent;
+}
+
+button, input[type="button"], input[type="submit"], a[role="button"], [role="button"] {
+	min-height: 44px;
+	min-width: 44px;
+}
+
+/* Visible focus for keyboard users */
+:focus {
+	outline: none;
+}
+
+:focus-visible {
+	outline: 3px solid rgba(37,99,235,0.9); /* blue-600 */
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+
+/* Improve contrast for status / alert text when Tailwind classes not used */
+.text-contrast {
+	color: var(--text);
+}
+
+/* Ensure images and iframes do not cause horizontal overflow */
+img, iframe, video {
+	max-width: 100%;
+	height: auto;
+}
+
+body {
+  min-height: 100vh;
+}

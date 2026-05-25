@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment files (contain secrets)
+.env
+*.env
+!.env.example
+
+# ML artifacts (large binary files — regenerate with train scripts)
+# (consolidated at bottom of file)
+
+# Node / Frontend
+node_modules/
+frontend/dist/
+frontend/.env
+!frontend/.env.example
+
+# Testing
+.pytest_cache/
+.hypothesis/
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Extension build output
+extension/dist/
+
+# Kiro
+.kiro/
+
+# Large datasets (too large for GitHub — store locally or use Git LFS)
+Hindi_F&R_News/
+Telugu_F&R_News/
+archive/
+
+# ML model artifacts (large binary files — regenerate with train scripts)
+backend/ml/artifacts/*.joblib
+backend/ml/artifacts/*_metadata.json
+!backend/ml/artifacts/.gitkeep
