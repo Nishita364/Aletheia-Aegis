@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: aletheia-aegis-backend
+    runtime: python
+    rootDir: .
+    buildCommand: pip install -e backend/
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB_NAME
+        value: fake_news_detector
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_EXPIRATION_HOURS
+        value: "24"
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: FACT_CHECK_API_KEY
+        sync: false
+      - key: RATE_LIMIT_PER_MINUTE
+        value: "30"
+    healthCheckPath: /api/v1/health

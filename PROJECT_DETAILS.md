@@ -359,3 +359,76 @@ Make sure your phone is on the **same Wi-Fi network** as your laptop, then open 
 | Backend API | `http://192.168.29.99:8000` |
 
 > **Note:** The IP address (`192.168.29.99`) may change each time you reconnect to Wi-Fi. If it stops working, check the Network URL shown in the Vite terminal output when you start the frontend — it always shows the current IP.
+
+
+---
+
+## Deploying to the Internet (Render + Vercel)
+
+To make the project accessible to anyone on the internet (not just your local Wi-Fi), deploy the backend to **Render** and the frontend to **Vercel**.
+
+### Architecture
+
+```
+Phone / Browser (anywhere)
+        ↓
+https://aletheia-aegis.vercel.app   (Vercel — frontend)
+        ↓
+https://aletheia-aegis-backend.onrender.com   (Render — backend)
+        ↓
+MongoDB Atlas   (already cloud-hosted)
+```
+
+---
+
+### Step 1 — Deploy Backend to Render
+
+1. Go to [render.com](https://render.com) and sign up / log in
+2. Click **New → Web Service**
+3. Connect your GitHub repo: `Nishita364/Aletheia-Aegis`
+4. Render will auto-detect `render.yaml` — click **Apply**
+5. In the **Environment** tab, add these secret variables:
+
+| Key | Value |
+|-----|-------|
+| `MONGODB_URI` | `mongodb+srv://nishitadeepthi364_db_user:...` |
+| `JWT_SECRET` | `aletheia-aegis-jwt-secret-change-in-production` |
+| `ADMIN_USERNAME` | `admin` |
+| `ADMIN_PASSWORD` | `admin123` |
+| `FACT_CHECK_API_KEY` | `AIzaSyCMbIvLk4yek1LWoS6iriqemC1fk-y_UgE` |
+
+6. Click **Deploy** — Render will build and start the backend
+7. Note the URL: `https://aletheia-aegis-backend.onrender.com`
+
+---
+
+### Step 2 — Deploy Frontend to Vercel
+
+1. Go to [vercel.com](https://vercel.com) and sign up / log in
+2. Click **New Project → Import Git Repository**
+3. Select `Nishita364/Aletheia-Aegis`
+4. Set **Root Directory** to `frontend`
+5. Add this environment variable:
+
+| Key | Value |
+|-----|-------|
+| `VITE_API_BASE_URL` | `https://aletheia-aegis-backend.onrender.com` |
+
+6. Click **Deploy**
+7. Note the URL: `https://aletheia-aegis.vercel.app`
+
+---
+
+### Step 3 — Update CORS (after deployment)
+
+Once you have the actual Vercel URL, update `backend/main.py` CORS list to include it, then redeploy the backend. The `render.yaml` already includes placeholder Vercel URLs.
+
+---
+
+### Files Added for Deployment
+
+| File | Purpose |
+|------|---------|
+| `render.yaml` | Render deployment config (build command, start command, env vars) |
+| `frontend/vercel.json` | Vercel deployment config (build, routing for React SPA) |
+| `.gitattributes` | Git LFS tracking for `.joblib` model files |

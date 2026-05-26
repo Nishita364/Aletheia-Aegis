@@ -1,0 +1,2 @@
+*.joblib filter=lfs diff=lfs merge=lfs -text
+backend/ml/artifacts/*.json filter=lfs diff=lfs merge=lfs -text

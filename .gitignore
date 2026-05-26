@@ -29,8 +29,8 @@ ENV/
 *.env
 !.env.example
 
-# ML artifacts (large binary files — regenerate with train scripts)
-# (consolidated at bottom of file)
+# ML model artifacts (tracked via Git LFS — do not ignore)
+# backend/ml/artifacts/*.joblib  ← handled by Git LFS (.gitattributes)
 
 # Node / Frontend
 node_modules/
@@ -72,7 +72,5 @@ Hindi_F&R_News/
 Telugu_F&R_News/
 archive/
 
-# ML model artifacts (large binary files — regenerate with train scripts)
-backend/ml/artifacts/*.joblib
-backend/ml/artifacts/*_metadata.json
-!backend/ml/artifacts/.gitkeep
+# ML model artifacts (tracked via Git LFS — do not ignore)
+# backend/ml/artifacts/*.joblib  ← handled by Git LFS (.gitattributes)

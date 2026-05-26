@@ -284,6 +284,9 @@ def create_app(
             "http://localhost:5174",
             "http://10.243.60.235:5173",  # phone access via Wi-Fi
             "http://192.168.29.99:5173",  # phone access via Wi-Fi
+            # Production URLs — update these after deploying to Vercel
+            "https://aletheia-aegis.vercel.app",
+            "https://aletheia-aegis-frontend.vercel.app",
         ],
         allow_credentials=True,
         allow_methods=["*"],
