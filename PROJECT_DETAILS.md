@@ -432,3 +432,17 @@ Once you have the actual Vercel URL, update `backend/main.py` CORS list to inclu
 | `render.yaml` | Render deployment config (build command, start command, env vars) |
 | `frontend/vercel.json` | Vercel deployment config (build, routing for React SPA) |
 | `.gitattributes` | Git LFS tracking for `.joblib` model files |
+
+
+---
+
+## Live Deployment URLs
+
+| Service | URL |
+|---------|-----|
+| **Frontend (Vercel)** | https://aletheia-aegis-a1vc-oqgbi7ynh-nishita364s-projects.vercel.app |
+| **Backend (Render)** | https://aletheia-aegis.onrender.com |
+| **API Health Check** | https://aletheia-aegis.onrender.com/api/v1/health |
+| **API Docs** | https://aletheia-aegis.onrender.com/docs |
+
+> Note: The Render free tier spins down after 15 minutes of inactivity. The first request after inactivity may take 30–60 seconds to respond while the server wakes up.

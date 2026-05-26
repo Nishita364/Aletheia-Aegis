@@ -24,4 +24,6 @@ services:
         sync: false
       - key: RATE_LIMIT_PER_MINUTE
         value: "30"
+      - key: FRONTEND_URL
+        value: "https://aletheia-aegis-a1vc-oqgbi7ynh-nishita364s-projects.vercel.app"
     healthCheckPath: /api/v1/health

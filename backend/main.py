@@ -282,9 +282,10 @@ def create_app(
             "http://localhost:5173",
             "http://127.0.0.1:5174",
             "http://localhost:5174",
-            "http://10.243.60.235:5173",  # phone access via Wi-Fi
-            "http://192.168.29.99:5173",  # phone access via Wi-Fi
-            # Production URLs — update these after deploying to Vercel
+            "http://10.243.60.235:5173",
+            "http://192.168.29.99:5173",
+            # Production Vercel URLs
+            "https://aletheia-aegis-a1vc-oqgbi7ynh-nishita364s-projects.vercel.app",
             "https://aletheia-aegis.vercel.app",
             "https://aletheia-aegis-frontend.vercel.app",
         ],
