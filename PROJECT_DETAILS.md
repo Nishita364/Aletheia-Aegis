@@ -311,3 +311,51 @@ After login, the Admin link appears in the navigation bar giving access to analy
 - The Hindi and Telugu models are trained on actual news articles (BBC-style fact-checks and real news). They work best with full article text (at least 5 sentences). Very short snippets may not have enough vocabulary signal.
 - MongoDB Atlas requires your current IP address to be whitelisted in the Atlas Network Access settings. If the connection fails, the app automatically falls back to an in-memory store (history will not persist across restarts).
 - The Google Fact Check API key is already configured in `backend/.env`.
+
+
+---
+
+## Accessing the Project from a Phone
+
+`localhost` only works on the machine running the server. Your phone cannot reach `localhost` because it refers to "this device only." To access from a phone, both devices must be on the **same Wi-Fi network** and you use the laptop's actual IP address.
+
+### What Was Changed
+
+**1. Found the laptop's Wi-Fi IP**
+Used PowerShell's `Get-NetIPAddress` to find the laptop's IP on the local network → `192.168.29.99`
+
+**2. Updated `frontend/vite.config.ts`**
+Added `host: true` so Vite binds to all network interfaces (not just localhost):
+```ts
+server: {
+  host: true,   // binds to 0.0.0.0 — all network interfaces
+  port: 5173,
+}
+```
+
+**3. Updated `frontend/.env`**
+Changed the API base URL from `localhost` to the real laptop IP:
+```
+VITE_API_BASE_URL=http://192.168.29.99:8000
+```
+Without this, the frontend loads on the phone but all API calls go to the phone's own `localhost` instead of the laptop.
+
+**4. Updated `backend/main.py` CORS**
+Added the network IP to the allowed origins list so the browser doesn't block API responses:
+```python
+"http://192.168.29.99:5173"
+```
+
+**5. Backend already network-accessible**
+The backend was already started with `--host 0.0.0.0` so no change was needed there.
+
+### How to Access from Your Phone
+
+Make sure your phone is on the **same Wi-Fi network** as your laptop, then open in your phone's browser:
+
+| Service | URL |
+|---------|-----|
+| Frontend | `http://192.168.29.99:5173` |
+| Backend API | `http://192.168.29.99:8000` |
+
+> **Note:** The IP address (`192.168.29.99`) may change each time you reconnect to Wi-Fi. If it stops working, check the Network URL shown in the Vite terminal output when you start the frontend — it always shows the current IP.
