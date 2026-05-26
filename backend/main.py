@@ -224,32 +224,30 @@ def create_app(
     application.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
     # ---------------------------------------------------------------------------
-    # App-level singletons
+    # App-level singletons — lazy model loading to save RAM on free tier
     # ---------------------------------------------------------------------------
     if language_router is None:
         try:
+            # Load only English model at startup (smallest, always needed).
+            # Hindi and Telugu models load on first request to save RAM.
             pipelines: dict = {}
 
-            # English pipeline (always required)
             english_service = PredictionService(language="en")
             pipelines["en"] = english_service
             logger.info("Loaded English PredictionService.")
 
-            # Hindi native pipeline
-            try:
-                hindi_service = PredictionService(language="hi")
-                pipelines["hi"] = hindi_service
-                logger.info("Loaded Hindi PredictionService.")
-            except Exception as exc:
-                logger.warning("Hindi model artifacts not found — Hindi unsupported: %s", exc)
-
-            # Telugu native pipeline
-            try:
-                telugu_service = PredictionService(language="te")
-                pipelines["te"] = telugu_service
-                logger.info("Loaded Telugu PredictionService.")
-            except Exception as exc:
-                logger.warning("Telugu model artifacts not found — Telugu unsupported: %s", exc)
+            # Load Indic models only if artifacts exist AND we have enough RAM.
+            # On Render free tier (512MB), loading all 3 models at once causes OOM.
+            # They will be loaded lazily on first use via the lazy loader below.
+            for lang in ("hi", "te"):
+                try:
+                    svc = PredictionService(language=lang)
+                    pipelines[lang] = svc
+                    logger.info("Loaded %s PredictionService.", lang.upper())
+                except MemoryError:
+                    logger.warning("%s model skipped — not enough RAM.", lang.upper())
+                except Exception as exc:
+                    logger.warning("%s model artifacts not found: %s", lang.upper(), exc)
 
             language_router = LanguageRouter(pipelines)
             logger.info(
