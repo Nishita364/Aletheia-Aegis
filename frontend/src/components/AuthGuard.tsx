@@ -29,16 +29,10 @@ export function clearAdminToken(): void {
 
 interface AuthGuardProps {
   children: React.ReactNode
-  /** If true, redirects to /login instead of /admin/login */
   appLevel?: boolean
 }
 
-/**
- * Redirects unauthenticated users to the login page.
- * - appLevel=true  → redirects to /login  (whole-app guard)
- * - appLevel=false → redirects to /admin/login (admin-only guard, legacy)
- */
-export function AuthGuard({ children, appLevel = false }: AuthGuardProps) {
+export function AuthGuard({ children }: AuthGuardProps) {
   const location = useLocation()
   const { isAuthenticated } = useAuth()
 
