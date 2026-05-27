@@ -283,9 +283,10 @@ def create_app(
             "http://10.243.60.235:5173",
             "http://192.168.29.99:5173",
             # Production Vercel URLs
-            "https://aletheia-aegis-a1vc-oqgbi7ynh-nishita364s-projects.vercel.app",
             "https://aletheia-aegis.vercel.app",
-            "https://aletheia-aegis-frontend.vercel.app",
+            "https://aletheia-aegis-git-main-nishita364s-projects.vercel.app",
+            "https://aletheia-aegis-pk9y3icuu-nishita364s-projects.vercel.app",
+            "https://aletheia-aegis-a1vc-oqgbi7ynh-nishita364s-projects.vercel.app",
         ],
         allow_credentials=True,
         allow_methods=["*"],

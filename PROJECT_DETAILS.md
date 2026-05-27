@@ -440,7 +440,7 @@ Once you have the actual Vercel URL, update `backend/main.py` CORS list to inclu
 
 | Service | URL |
 |---------|-----|
-| **Frontend (Vercel)** | https://aletheia-aegis-a1vc-oqgbi7ynh-nishita364s-projects.vercel.app |
+| **Frontend (Vercel)** | https://aletheia-aegis.vercel.app |
 | **Backend (Render)** | https://aletheia-aegis.onrender.com |
 | **API Health Check** | https://aletheia-aegis.onrender.com/api/v1/health |
 | **API Docs** | https://aletheia-aegis.onrender.com/docs |
