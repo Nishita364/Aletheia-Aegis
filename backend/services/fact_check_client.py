@@ -57,7 +57,7 @@ _STOPWORDS = frozenset({
 })
 
 # Maximum number of keywords to use for the query
-_MAX_KEYWORDS = 5
+_MAX_KEYWORDS = 4
 
 
 @dataclass
@@ -70,10 +70,12 @@ class FactCheckResult:
 
 
 def _extract_keywords(text: str, max_keywords: int = _MAX_KEYWORDS) -> list[str]:
-    """Extract key terms from text using simple frequency-based keyword extraction.
+    """Extract key terms from text using frequency-based keyword extraction.
 
     Removes punctuation, lowercases, filters stopwords and short tokens,
-    then returns the top N most frequent remaining words.
+    then returns the top N most frequent remaining words **in the order they
+    first appear in the text** so the resulting query reads naturally and
+    produces better Fact Check API results.
 
     Parameters
     ----------
@@ -85,7 +87,7 @@ def _extract_keywords(text: str, max_keywords: int = _MAX_KEYWORDS) -> list[str]
     Returns
     -------
     list[str]
-        A list of up to *max_keywords* keywords, ordered by frequency descending.
+        A list of up to *max_keywords* keywords, in first-appearance order.
     """
     # Strip punctuation and lowercase
     translator = str.maketrans(string.punctuation, " " * len(string.punctuation))
@@ -105,10 +107,27 @@ def _extract_keywords(text: str, max_keywords: int = _MAX_KEYWORDS) -> list[str]
     for token in meaningful:
         freq[token] = freq.get(token, 0) + 1
 
-    # Sort by frequency descending, then alphabetically for determinism
-    sorted_tokens = sorted(freq.keys(), key=lambda t: (-freq[t], t))
+    # Rank by frequency descending; break ties by first-appearance position
+    first_seen: dict[str, int] = {}
+    for i, token in enumerate(meaningful):
+        if token not in first_seen:
+            first_seen[token] = i
 
-    return sorted_tokens[:max_keywords]
+    # Sort: highest frequency first, then earliest appearance for ties
+    sorted_tokens = sorted(freq.keys(), key=lambda t: (-freq[t], first_seen[t]))
+    top_tokens = set(sorted_tokens[:max_keywords])
+
+    # Return in original text order so the query reads as a natural phrase
+    seen: set[str] = set()
+    ordered: list[str] = []
+    for token in meaningful:
+        if token in top_tokens and token not in seen:
+            ordered.append(token)
+            seen.add(token)
+        if len(ordered) == max_keywords:
+            break
+
+    return ordered
 
 
 def _parse_results(data: dict) -> list[FactCheckResult]:
