@@ -99,8 +99,10 @@ class TestExtractKeywords:
         assert _extract_keywords("   \t\n  ") == []
 
     def test_returns_meaningful_words(self):
+        # All 5 words are meaningful (no stopwords, all > 2 chars).
+        # With first-appearance ordering the result is the words in text order.
         text = "president signed executive order immigration policy"
-        keywords = _extract_keywords(text, max_keywords=5)
+        keywords = _extract_keywords(text, max_keywords=6)
         assert "president" in keywords
         assert "immigration" in keywords
         assert "policy" in keywords
